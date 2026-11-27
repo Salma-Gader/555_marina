@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Marina After Dark, réveillon NYE 2027 au 555 Tanger</title>
+  <meta name="description" content="Réveillon du 31 décembre 2026 au 555 Famous Club, Marina Bay Tanger. Entrée 700 dh avec consommation, tables de 5 000 à 15 000 dh. La baie s’éveille après minuit." />
+  <meta name="theme-color" content="#0D1324" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230D1324'/%3E%3Ctext x='32' y='42' font-family='Arial Black' font-size='26' font-style='italic' text-anchor='middle' fill='%23CDB07A'%3E555%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Unbounded:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="importmap">
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js" } }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#tables">Aller au plan des tables</a>
+
+  <canvas id="scene" aria-hidden="true"></canvas>
+  <div class="atmos" aria-hidden="true"><span class="beam beam-a"></span><span class="beam beam-b"></span></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="top" id="top">
+    <a class="mark" href="#accueil" aria-label="555 Famous Club Tanger, retour en haut">
+      <span class="mark-num">555</span>
+      <span class="mark-txt">Famous Club<br />Tanger Marina Bay</span>
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#esprit">L’esprit</a>
+      <a href="#soiree">La soirée</a>
+      <a href="#tables">Tables</a>
+      <a href="#minuit">Minuit</a>
+    </nav>
+    <a class="btn btn-gold btn-sm" href="#tables">Réserver</a>
+  </header>
+
+  <main>
+    <!-- 0 · 555 -->
+    <section class="hero" id="accueil" data-stage="0" aria-labelledby="hero-title">
+      <h1 id="hero-title" class="hero-title">
+        <span class="hero-w hero-w-l">Marina</span>
+        <span class="hero-w hero-w-r">After Dark</span>
+      </h1>
+      <div class="hero-foot">
+        <div class="hero-meta">
+          <p class="hero-date">Réveillon du 31 décembre 2026<span>NYE 2027, 555 Famous Club Tanger</span></p>
+          <p class="hero-tag" lang="fr">La baie s’éveille après minuit.</p>
+          <p class="hero-tag-en" lang="en">The bay comes alive after midnight.</p>
+        </div>
+        <div class="hero-cta">
+          <p class="hero-price">Entrée <strong>700 dh</strong> avec consommation</p>
+          <a class="btn btn-gold" href="#tables">Choisir ma table</a>
+        </div>
+      </div>
+      <p class="scroll-hint" aria-hidden="true">Défiler</p>
+    </section>
+
+    <!-- 1 · la baie -->
+    <section class="esprit" id="esprit" data-stage="1" aria-labelledby="esprit-title">
+      <div class="wrap">
+        <div class="esprit-text">
+          <h2 id="esprit-title" class="h2">Une nuit bleu nuit, or et argent sur la Marina Bay.</h2>
+          <p class="lead">Plus feutrée, plus nocturne&nbsp;: Marina After Dark habille le 555 aux couleurs de la baie après minuit. Des reflets champagne autour de la scène, une entrée en rideau métallique sous un éclairage bleu nuit, et un photo spot pour garder la nuit en mémoire.</p>
+        </div>
+        <ul class="photos" role="list">
+          <li class="photo photo-tall">
+            <img src="assets/dj-bleu.webp" alt="DJ aux platines sous des faisceaux bleus au 555" loading="lazy" width="1400" height="935" />
+            <p>Reflets champagne autour de la scène.</p>
+          </li>
+          <li class="photo">
+            <img src="assets/champagne.webp" alt="Présentoir lumineux 555 portant une bouteille de champagne" loading="lazy" width="1400" height="1400" />
+            <p>Entrée en rideau métallique, éclairage bleu nuit.</p>
+          </li>
+          <li class="photo">
+            <img src="assets/lasers-violet.webp" alt="Performer entouré de lasers verts sur fond violet" loading="lazy" width="1400" height="935" />
+            <p>Le photo spot Marina After Dark.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 2 · lasers / programme -->
+    <section class="soiree" id="soiree" data-stage="2" aria-labelledby="soiree-title">
+      <div class="wrap soiree-grid">
+        <div class="soiree-head">
+          <h2 id="soiree-title" class="h2">Le déroulé de la nuit</h2>
+          <p class="lead">Sélection musicale festive avec DJ et MC, performances lumineuses en passages courts, parade de tables selon commande, et à minuit, la révélation 2027 sur fond bleu nuit.</p>
+          <figure class="soiree-photo">
+            <img src="assets/performeuse.webp" alt="Performeuse en veste orange devant des lasers rouges" loading="lazy" width="1400" height="1750" />
+          </figure>
+        </div>
+        <ol class="timeline" role="list">
+          <li><time>22h30</time><span>Accueil</span></li>
+          <li><time>23h00</time><span>DJ et installation des tables</span></li>
+          <li><time>23h40</time><span>Performance courte</span></li>
+          <li><time>23h55</time><span>Préparation du compte à rebours</span></li>
+          <li class="is-midnight"><time>00h00</time><span>Marina After Dark</span></li>
+          <li><time>00h15</time><span>Set festif</span></li>
+        </ol>
+        <p class="note">Horaires indicatifs. Artistes et programmation communiqués prochainement.</p>
+      </div>
+    </section>
+
+    <!-- 3 · tables -->
+    <section class="tables" id="tables" data-stage="3" aria-labelledby="tables-title">
+      <div class="wrap">
+        <div class="tables-head">
+          <h2 id="tables-title" class="h2">Choisissez votre table</h2>
+          <p class="lead">Chaque table accueille <strong>6 personnes</strong>. Une personne en plus à une table règle le ticket d’entrée de <strong>700 dh</strong>.</p>
+        </div>
+
+        <div class="tables-grid">
+          <div class="plan-col">
+            <div class="filters" role="group" aria-label="Filtrer par tarif">
+              <button type="button" class="chip is-on" data-tier="all" aria-pressed="true">Toutes</button>
+            </div>
+            <div class="plan-box">
+              <svg id="plan" viewBox="0 228 864 1076" role="group" aria-label="Plan de salle du 555 Tanger, 65 tables"></svg>
+            </div>
+          </div>
+
+          <aside class="side" aria-label="Votre sélection">
+            <div class="pick" id="pick" aria-live="polite">
+              <p class="pick-empty">Touchez une table sur le plan ou dans la liste pour voir son tarif.</p>
+            </div>
+            <div class="tiers" id="tiers"></div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 · accueil -->
+    <section class="accueil" id="arrivee" data-stage="3" aria-labelledby="accueil-title">
+      <div class="wrap accueil-grid">
+        <figure class="accueil-photo">
+          <img src="assets/etincelles.webp" alt="Bouteilles servies avec des étincelles sous lumière rouge" loading="lazy" width="1400" height="1400" />
+        </figure>
+        <div>
+          <h2 id="accueil-title" class="h2">Votre arrivée</h2>
+          <ul class="list" role="list">
+            <li>Une liste de réservation et un responsable des tables identifiés.</li>
+            <li>La confirmation écrite de votre emplacement et du nombre de personnes.</li>
+            <li>Un accueil discret, avec vestiaire selon disponibilité.</li>
+            <li>Une équipe en noir, accessoires champagne.</li>
+            <li>Dress code&nbsp;: midnight chic.</li>
+          </ul>
+          <div class="nommos">
+            <h3>Dîner avant la nuit</h3>
+            <p>Un pré-dîner chez Nommos Tanger est proposé en option. Il se réserve séparément de l’entrée club.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 · 2027 -->
+    <section class="minuit" id="minuit" data-stage="4" aria-labelledby="minuit-title">
+      <div class="wrap minuit-inner">
+        <h2 id="minuit-title" class="minuit-title">Avant 2027</h2>
+        <div class="count" id="count" role="timer" aria-live="off">
+          <div><span data-u="j">--</span><small>jours</small></div>
+          <div><span data-u="h">--</span><small>heures</small></div>
+          <div><span data-u="m">--</span><small>minutes</small></div>
+          <div><span data-u="s">--</span><small>secondes</small></div>
+        </div>
+        <p class="minuit-line">31 décembre 2026, 555 Famous Club, Marina Bay Tanger.</p>
+        <a class="btn btn-gold" href="#tables">Réserver une table</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot-grid">
+      <p class="foot-mark"><span>555</span> Famous Club, Tanger Marina Bay</p>
+      <p>Réservation par le canal officiel du lieu. Acompte, annulation et disponibilité précisés à la réservation.</p>
+      <a href="https://www.555tanger.com/" rel="noopener">555tanger.com</a>
+    </div>
+  </footer>
+
+  <script type="module" src="plan.js"></script>
+  <script type="module" src="scene.js"></script>
+  <script type="module" src="countdown.js"></script>
+</body>
+</html>
