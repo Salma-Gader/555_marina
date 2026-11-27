@@ -32,7 +32,8 @@ if (!hasWebGL()) {
 async function init() {
   const canvas = document.getElementById("scene");
   const small = matchMedia("(max-width: 760px)").matches;
-  const N = small ? 11000 : 24000;
+  // mobile : le texte est réduit, donc moins de perles pour garder la même densité
+  const N = small ? 7000 : 24000;
 
   // police chargée avant d'échantillonner les chiffres
   try {
@@ -53,10 +54,12 @@ async function init() {
   const rand = mulberry(555);
   const s0 = sampleText("555", N, 6.4, rand);
   const s1 = makeBay(N, rand);
-  const s2 = makeLasers(N, rand);
+  const s2 = makeLasers(N, rand, small); // mobile : moins de faisceaux, plus épais
   const s3 = makeDust(N, rand);
   const s4 = sampleText("2027", N, 7.2, rand);
-  for (let i = 1; i < s4.length; i += 3) s4[i] += small ? 1.9 : 1.35; // au-dessus du compte à rebours
+  // « 2027 » est placé dans #slot2027 à chaque image (voir frame)
+  const slot = document.getElementById("slot2027");
+  const slot0 = document.getElementById("slot555"); // visible sur mobile seulement
 
   const geo = new THREE.BufferGeometry();
   geo.setAttribute("position", new THREE.BufferAttribute(s0, 3));
@@ -94,6 +97,7 @@ async function init() {
     uRepel: { value: 0 },
     uPR: { value: 1 },
     uSizeK: { value: 26 },
+    uBeamK: { value: small ? 1 : 0 },
   };
 
   const mat = new THREE.ShaderMaterial({
@@ -104,7 +108,7 @@ async function init() {
     vertexShader: /* glsl */ `
       attribute vec3 aS1; attribute vec3 aS2; attribute vec3 aS3; attribute vec3 aS4;
       attribute float aRand; attribute vec3 aJit; attribute float aSize; attribute float aTone;
-      uniform float uTime, uStage, uIntro, uDrift, uRepel, uPR, uSizeK;
+      uniform float uTime, uStage, uIntro, uDrift, uRepel, uPR, uSizeK, uBeamK;
       uniform vec2 uMouse;
       varying vec3 vColor; varying float vAlpha;
 
@@ -150,9 +154,9 @@ async function init() {
         gl_Position = projectionMatrix * mv;
 
         float tw = 0.7 + 0.6 * pow(abs(sin(uTime*(0.8 + aRand*2.4) + aRand*60.0)), 6.0);
-        gl_PointSize = aSize * tw * uPR * uSizeK / -mv.z;
+        gl_PointSize = aSize * tw * uPR * uSizeK / -mv.z * (1.0 + 0.9 * uBeamK * w2);
 
-        vec3 gold = vec3(0.90, 0.78, 0.55);
+        vec3 gold = vec3(0.92, 0.68, 0.26);
         vec3 silver = vec3(0.78, 0.81, 0.90);
         vec3 pearl = vec3(1.0, 0.97, 0.92);
         vec3 c = mix(silver, gold, smoothstep(0.35, 0.75, aTone));
@@ -160,7 +164,7 @@ async function init() {
         c = mix(c, vec3(0.45, 0.75, 1.0), w2 * 0.55 * step(0.4, aTone));   // faisceaux bleutés
         c = mix(c, gold, w4 * 0.55);
         vColor = c;
-        vAlpha = (0.7 + 0.5*aRand) * (1.0 - 0.6*w3) * (1.0 - 0.35*w2) * uIntro;
+        vAlpha = (0.7 + 0.5*aRand) * (1.0 - 0.6*w3) * (1.0 - 0.35*w2*(1.0 - uBeamK)) * uIntro;
       }
     `,
     fragmentShader: /* glsl */ `
@@ -217,7 +221,9 @@ async function init() {
   }
 
   // ---------- taille ----------
-  let scaleK = 1, aspect = 1;
+  let scaleK = 1, scale4 = 1, aspect = 1;
+  // largeur visible (unités monde) sur le plan z = 0 à une distance donnée
+  const visW = (dist) => 2 * dist * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * aspect;
   function resize() {
     const w = innerWidth, h = innerHeight;
     const pr = Math.min(devicePixelRatio || 1, small ? 1.5 : 1.75);
@@ -227,9 +233,13 @@ async function init() {
     camera.aspect = aspect;
     camera.updateProjectionMatrix();
     uniforms.uPR.value = pr;
-    scaleK = Math.min(1, Math.max(0.42, aspect / 1.55));
-    group.scale.setScalar(scaleK);
-    uniforms.uSizeK.value = 44 * (small ? 1.2 : 1);
+    if (w <= 760) {
+      // mobile : « 555 » occupe ~92 % de la largeur, « 2027 » ~88 %
+      scaleK = Math.min(1, (0.92 * visW(CAM[0].z)) / (6.4 * 0.92));
+      scale4 = Math.min(1, (0.88 * visW(CAM[4].z)) / (7.2 * 0.92));
+    } else {
+      scaleK = scale4 = Math.min(1, Math.max(0.42, aspect / 1.55));
+    }
     measure();
   }
   addEventListener("resize", resize);
@@ -252,6 +262,14 @@ async function init() {
   const ray = new THREE.Raycaster();
   const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
   const hit = new THREE.Vector3();
+  const slotNdc = new THREE.Vector2();
+  // position monde (y, plan z = 0) du centre d'un emplacement HTML
+  function slotWorldY(el) {
+    const r = el.getBoundingClientRect();
+    const cy = Math.min(innerHeight * 1.5, Math.max(-innerHeight * 0.5, r.top + r.height * 0.5));
+    ray.setFromCamera(slotNdc.set(0, -(cy / innerHeight) * 2 + 1), camera);
+    return ray.ray.intersectPlane(plane, hit) ? hit.y : 0;
+  }
 
   // ---------- boucle ----------
   let stage = targetStage();
@@ -297,6 +315,22 @@ async function init() {
     camera.position.set(Math.sin(yaw) * z, y, Math.cos(yaw) * z);
     camera.lookAt(0, y * 0.35, 0);
     group.position.x = offX;
+    camera.updateMatrixWorld();
+
+    // « 2027 » suit l'emplacement réservé au-dessus du compte à rebours
+    const w4 = Math.min(1, Math.max(0, stage - 3));
+    // il défile avec la page comme un vrai élément : jamais par-dessus le texte
+    const e4 = w4 * w4 * (3 - 2 * w4);
+    // mobile : « 555 » suit de même son emplacement entre le titre et le bas du hero
+    const w0 = 1 - Math.min(1, Math.max(0, stage));
+    const e0 = w0 * w0 * (3 - 2 * w0);
+    const y4 = w4 > 0 ? slotWorldY(slot) : 0;
+    const y0 = w0 > 0 && slot0 && slot0.offsetHeight > 0 ? slotWorldY(slot0) : 0;
+    group.position.y = y0 * e0 + y4 * e4;
+    const sc = scaleK + (scale4 - scaleK) * e4;
+    group.scale.setScalar(sc);
+    // taille des perles proportionnelle au texte, sinon elles se fondent en tache blanche
+    uniforms.uSizeK.value = 44 * Math.max(0.5, sc);
 
     // répulsion
     const targetRepel = pointerActive ? 1 : 0;
@@ -363,9 +397,9 @@ function makeBay(N, rand) {
   return out;
 }
 
-function makeLasers(N, rand) {
+function makeLasers(N, rand, small) {
   const out = new Float32Array(N * 3);
-  const beams = 22;
+  const beams = small ? 10 : 22;
   const dirs = [];
   for (let b = 0; b < beams; b++) {
     const a = (-68 + (136 * b) / (beams - 1)) * (Math.PI / 180) + (rand() - 0.5) * 0.05;
@@ -374,7 +408,7 @@ function makeLasers(N, rand) {
   for (let i = 0; i < N; i++) {
     const d = dirs[Math.floor(rand() * beams)];
     const len = Math.pow(rand(), 0.8) * 7.5;
-    const spread = 0.025 + len * 0.012;
+    const spread = (0.025 + len * 0.012) * (small ? 2.2 : 1);
     out[i * 3] = d[0] * len + (rand() - 0.5) * spread;
     out[i * 3 + 1] = -2.6 + d[1] * len + (rand() - 0.5) * spread;
     out[i * 3 + 2] = d[2] * len + (rand() - 0.5) * spread;

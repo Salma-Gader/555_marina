@@ -6,10 +6,10 @@
   <title>Marina After Dark, réveillon NYE 2027 au 555 Tanger</title>
   <meta name="description" content="Réveillon du 31 décembre 2026 au 555 Famous Club, Marina Bay Tanger. Entrée 700 dh avec consommation, tables de 5 000 à 15 000 dh. La baie s’éveille après minuit." />
   <meta name="theme-color" content="#0D1324" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230D1324'/%3E%3Ctext x='32' y='42' font-family='Arial Black' font-size='26' font-style='italic' text-anchor='middle' fill='%23CDB07A'%3E555%3C/text%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230D1324'/%3E%3Ctext x='32' y='42' font-family='Arial Black' font-size='26' font-style='italic' text-anchor='middle' fill='%23D9A43C'%3E555%3C/text%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Unbounded:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Cormorant+Garamond:ital,wght@1,600&family=Unbounded:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <script type="importmap">
     { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js" } }
@@ -24,8 +24,7 @@
 
   <header class="top" id="top">
     <a class="mark" href="#accueil" aria-label="555 Famous Club Tanger, retour en haut">
-      <span class="mark-num">555</span>
-      <span class="mark-txt">Famous Club<br />Tanger Marina Bay</span>
+      <img class="mark-logo" src="assets/logo-555.png" alt="555 Tanger Marina Bay" width="206" height="141" fetchpriority="high" />
     </a>
     <nav class="nav" aria-label="Sections">
       <a href="#esprit">L’esprit</a>
@@ -43,11 +42,11 @@
         <span class="hero-w hero-w-l">Marina</span>
         <span class="hero-w hero-w-r">After Dark</span>
       </h1>
+      <div class="hero-slot" id="slot555" aria-hidden="true"></div>
       <div class="hero-foot">
         <div class="hero-meta">
-          <p class="hero-date">Réveillon du 31 décembre 2026<span>NYE 2027, 555 Famous Club Tanger</span></p>
-          <p class="hero-tag" lang="fr">La baie s’éveille après minuit.</p>
-          <p class="hero-tag-en" lang="en">The bay comes alive after midnight.</p>
+          <p class="hero-tag">La baie s’éveille après minuit.</p>
+          <p class="hero-when"><time datetime="2026-12-31T22:30">Jeudi 31 décembre 2026, dès 22h30.</time></p>
         </div>
         <div class="hero-cta">
           <p class="hero-price">Entrée <strong>700 dh</strong> avec consommation</p>
@@ -157,6 +156,7 @@
     <!-- 4 · 2027 -->
     <section class="minuit" id="minuit" data-stage="4" aria-labelledby="minuit-title">
       <div class="wrap minuit-inner">
+        <div class="minuit-slot" id="slot2027" aria-hidden="true"></div>
         <h2 id="minuit-title" class="minuit-title">Avant 2027</h2>
         <div class="count" id="count" role="timer" aria-live="off">
           <div><span data-u="j">--</span><small>jours</small></div>
@@ -172,7 +172,7 @@
 
   <footer class="foot">
     <div class="wrap foot-grid">
-      <p class="foot-mark"><span>555</span> Famous Club, Tanger Marina Bay</p>
+      <p class="foot-mark"><img src="assets/logo-555.png" alt="555 Tanger Marina Bay" width="206" height="141" loading="lazy" /></p>
       <p>Réservation par le canal officiel du lieu. Acompte, annulation et disponibilité précisés à la réservation.</p>
       <a href="https://www.555tanger.com/" rel="noopener">555tanger.com</a>
     </div>
